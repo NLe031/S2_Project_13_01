@@ -42,12 +42,12 @@ function init() {
             stars[i].style.cursor = "pointer";
             document.addEventListener("mouseenter", lightStars);
       }
-      document.getElementById("commentField").addEventListener("keyup", updateCount);
+      document.getElementById("comment").addEventListener("keyup", updateCount);
 }
 
-//function that colors the stars when a mouse hovers over
-function lightStars() {
-      var starNumber = document.getElementsByName("img").alt;
+//function that colors the stars when the mouse hovers over
+function lightStars(e) {
+      var starNumber = e.target.alt;
       var stars = document.querySelectorAll("span#stars img");
       for (var i = 0; i < starNumber; i++) {
             stars[i].src = "bw_star2.png";
@@ -55,8 +55,16 @@ function lightStars() {
       for (var i = starNumber; i < 5; i++) {
             stars[i].src = "bw_star.png";
             document.getElementById("rating").innerHTML = starNumber + "stars";
+            e.tatget.addEventListener("mouseleave", turnOffStars);
+            e.target.addEventListener("mouseleave", function () {
 
+            })
       }
+}
+
+//purpose is to unlight stars when the mouse moves away from stars
+function turnOffStars(e) {
+      ;
 }
 
 function updateCount() {
