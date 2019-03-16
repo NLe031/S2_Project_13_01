@@ -37,10 +37,11 @@ window.onload = init;
 
 //Function that defines event listeners used on the page
 function init() {
-      var stars = document.querySelectorAll("span#stars");
+      var stars = document.querySelectorAll("span#stars img");
+
       for (var i = 0; i < stars.length; i++) {
             stars[i].style.cursor = "pointer";
-            document.addEventListener("mouseenter", lightStars);
+            stars[i].addEventListener("mouseenter", lightStars);
       }
       document.getElementById("comment").addEventListener("keyup", updateCount);
 }
@@ -49,30 +50,32 @@ function init() {
 function lightStars(e) {
       var starNumber = e.target.alt;
       var stars = document.querySelectorAll("span#stars img");
+
       for (var i = 0; i < starNumber; i++) {
             stars[i].src = "bw_star2.png";
       }
       for (var i = starNumber; i < 5; i++) {
             stars[i].src = "bw_star.png";
-            document.getElementById("rating").innerHTML = starNumber + "stars";
-            e.tatget.addEventListener("mouseleave", turnOffStars);
-            e.target.addEventListener("mouseleave", function () {
 
-            })
       }
+      //Removes and unlights the stars and when clicked the stars stay lit
+      document.getElementById("rating").value = starNumber + " star(s)";
+      e.target.addEventListener("mouseleave", turnOffStars);
+      e.target.addEventListener("click",
+            function () {
+                  e.target.removeEventListener("mouseleave", turnOffStars)
+            });
 }
 
 //purpose is to unlight stars when the mouse moves away from stars
 function turnOffStars(e) {
-      ;
+      var stars = document.querySelectorAll("span#stars img");
+      for (var i = 0; i < stars.length; i++) {
+            stars[i].src = "bw_star.png";
+
+      }
+      document.getElementById("rating").innerHTML = "";
 }
-
-function updateCount() {
-      var commentText = "commentField";
-}
-
-
-
 
 
 
@@ -80,6 +83,23 @@ function updateCount() {
 
 
 /*=================================================================*/
+
+//This will update the word count for the comment box and color the text box if exceeded
+function updateCount() {
+      var commentText = document.getElementById("comment").value;
+      var charCount = countCharacters(commentText);
+      var wordCountBox = document.getElementById("wordCount");
+      wordCountBox.value = charCount + "/1000";
+      if (charCount > 1000) {
+            wordCountBox.style.color = "white";
+            wordCountBox.style.backgroundColor = "red";
+      } else {
+            wordCountBox.style.color = "black";
+            wordCountBox.style.backgroundColor = "white";
+      }
+}
+
+
 
 function countCharacters(textStr) {
       var commentregx = /\s/g;
